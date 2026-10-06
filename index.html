@@ -1,0 +1,3687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N7 Gestão — N7 Company</title>
+
+<style>
+:root{
+--red:#e50914;
+--red-dark:#b80710;
+--black:#080809;
+--panel:#141416;
+--panel2:#1b1b1f;
+--line:#29292e;
+--text:#f4f4f5;
+--muted:#a1a1aa;
+--green:#22c55e;
+--yellow:#f59e0b;
+--blue:#3b82f6;
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:var(--black);
+color:var(--text);
+font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input,select,textarea{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+.app{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:250px;
+background:#0e0e10;
+border-right:1px solid var(--line);
+padding:22px 14px;
+position:fixed;
+top:0;
+bottom:0;
+left:0;
+z-index:20;
+}
+
+.logo{
+padding:4px 10px 25px;
+border-bottom:1px solid var(--line);
+margin-bottom:18px;
+}
+
+.logo strong{
+font-size:30px;
+letter-spacing:-2px;
+}
+
+.logo span{
+display:block;
+color:var(--muted);
+font-size:11px;
+text-transform:uppercase;
+letter-spacing:2px;
+margin-top:3px;
+}
+
+.nav button{
+width:100%;
+display:flex;
+align-items:center;
+gap:12px;
+background:transparent;
+color:#bdbdc4;
+border:0;
+padding:12px 13px;
+border-radius:9px;
+margin:3px 0;
+text-align:left;
+}
+
+.nav button:hover,
+.nav button.active{
+background:#1b1b1f;
+color:white;
+}
+
+.nav button.active{
+box-shadow:inset 3px 0 var(--red);
+}
+
+/* MAIN */
+
+.main{
+margin-left:250px;
+width:calc(100% - 250px);
+padding:26px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:24px;
+}
+
+.title h1{
+margin:0;
+font-size:28px;
+}
+
+.title p{
+margin:5px 0 0;
+color:var(--muted);
+}
+
+.actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.btn{
+border:1px solid var(--line);
+background:#171719;
+color:white;
+padding:10px 14px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.btn:hover{
+background:#222226;
+}
+
+.btn.red{
+background:var(--red);
+border-color:var(--red);
+}
+
+.btn.red:hover{
+background:var(--red-dark);
+}
+
+.btn.danger{
+color:#ff737b;
+}
+
+.btn.small{
+padding:7px 10px;
+font-size:12px;
+}
+
+/* PAGES */
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+/* CARDS */
+
+.grid{
+display:grid;
+gap:14px;
+}
+
+.cards{
+grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.card,
+.panel{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:12px;
+}
+
+.card{
+padding:18px;
+}
+
+.metric{
+font-size:28px;
+font-weight:800;
+margin:8px 0;
+}
+
+.label{
+color:var(--muted);
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.6px;
+}
+
+.redtxt{
+color:#ff5b63;
+}
+
+.greentxt{
+color:#4ade80;
+}
+
+.yellowtxt{
+color:#fbbf24;
+}
+
+.bluetxt{
+color:#60a5fa;
+}
+
+/* LAYOUT */
+
+.layout{
+display:grid;
+grid-template-columns:1.35fr 1fr;
+gap:14px;
+margin-top:14px;
+}
+
+.panel{
+padding:18px;
+}
+
+.panel h2{
+font-size:16px;
+margin:0 0 15px;
+}
+
+.panel-head{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin-bottom:14px;
+}
+
+/* TABLE */
+
+.tablewrap{
+overflow:auto;
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+min-width:680px;
+}
+
+.table th{
+font-size:11px;
+color:var(--muted);
+text-transform:uppercase;
+text-align:left;
+padding:10px;
+border-bottom:1px solid var(--line);
+}
+
+.table td{
+padding:11px 10px;
+border-bottom:1px solid #222226;
+}
+
+.table tr:last-child td{
+border:0;
+}
+
+/* BADGES */
+
+.badge{
+display:inline-flex;
+padding:5px 8px;
+border-radius:999px;
+font-size:11px;
+font-weight:bold;
+background:#25252a;
+color:#ddd;
+}
+
+.badge.red{
+background:#40161a;
+color:#ff858b;
+}
+
+.badge.green{
+background:#10331e;
+color:#67e58c;
+}
+
+.badge.yellow{
+background:#3b2b0c;
+color:#ffd166;
+}
+
+.badge.blue{
+background:#102a49;
+color:#72b7ff;
+}
+
+/* LIST */
+
+.list{
+display:flex;
+flex-direction:column;
+gap:9px;
+}
+
+.item{
+border:1px solid var(--line);
+background:#101012;
+border-radius:9px;
+padding:12px;
+}
+
+.item strong{
+display:block;
+}
+
+.item small{
+color:var(--muted);
+}
+
+.dangerline{
+border-left:3px solid var(--red);
+}
+
+.successline{
+border-left:3px solid var(--green);
+}
+
+.warningline{
+border-left:3px solid var(--yellow);
+}
+
+/* FORMS */
+
+.filters{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:14px;
+}
+
+.input,
+.select,
+.textarea{
+background:#101012;
+color:#eee;
+border:1px solid var(--line);
+border-radius:8px;
+padding:10px;
+width:100%;
+outline:none;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus{
+border-color:#555;
+}
+
+.filters .input,
+.filters .select{
+width:auto;
+min-width:160px;
+}
+
+.formgrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.field label{
+display:block;
+color:#aaa;
+font-size:12px;
+margin-bottom:6px;
+}
+
+.field.full{
+grid-column:1/-1;
+}
+
+.textarea{
+min-height:90px;
+resize:vertical;
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+background:#000b;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+z-index:50;
+}
+
+.modal.open{
+display:flex;
+}
+
+.modalbox{
+width:min(760px,100%);
+max-height:90vh;
+overflow:auto;
+background:#151517;
+border:1px solid #333;
+border-radius:14px;
+padding:20px;
+}
+
+.modalhead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:18px;
+}
+
+.modalhead h3{
+margin:0;
+}
+
+.close{
+background:transparent;
+border:0;
+color:#aaa;
+font-size:25px;
+}
+
+.modalfoot{
+display:flex;
+justify-content:flex-end;
+gap:8px;
+margin-top:18px;
+}
+
+/* CALENDAR */
+
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:7px;
+}
+
+.dayname{
+text-align:center;
+color:#777;
+font-size:11px;
+padding:5px;
+}
+
+.day{
+min-height:105px;
+background:#101012;
+border:1px solid var(--line);
+border-radius:8px;
+padding:7px;
+}
+
+.day.today{
+border-color:var(--red);
+}
+
+.daynum{
+font-weight:bold;
+font-size:12px;
+margin-bottom:5px;
+}
+
+.event{
+font-size:10px;
+padding:5px;
+border-radius:5px;
+background:#2b1114;
+border-left:2px solid var(--red);
+margin:3px 0;
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+}
+
+.event.green{
+background:#102218;
+border-left-color:var(--green);
+}
+
+.event.yellow{
+background:#2b220e;
+border-left-color:var(--yellow);
+}
+
+/* EMPTY */
+
+.empty{
+text-align:center;
+color:#777;
+padding:28px;
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+right:20px;
+bottom:20px;
+background:#171719;
+border:1px solid #3b3b42;
+padding:13px 16px;
+border-radius:9px;
+display:none;
+z-index:80;
+}
+
+.toast.show{
+display:block;
+}
+
+/* MOBILE */
+
+.mobilebar{
+display:none;
+}
+
+@media(max-width:1050px){
+
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+.layout{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:760px){
+
+.sidebar{
+display:none;
+}
+
+.main{
+margin:0;
+width:100%;
+padding:16px 14px 80px;
+}
+
+.mobilebar{
+display:flex;
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#111113;
+border-top:1px solid var(--line);
+z-index:30;
+justify-content:space-around;
+padding:7px;
+}
+
+.mobilebar button{
+background:none;
+border:0;
+color:#aaa;
+font-size:10px;
+}
+
+.mobilebar button.active{
+color:white;
+}
+
+.cards{
+grid-template-columns:1fr 1fr;
+}
+
+.top{
+align-items:flex-start;
+}
+
+.formgrid{
+grid-template-columns:1fr;
+}
+
+.calendar{
+grid-template-columns:repeat(2,1fr);
+}
+
+.dayname{
+display:none;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+<strong>N7</strong>
+<span>Gestão • Company</span>
+</div>
+
+<nav class="nav">
+
+<button data-page="dashboard" class="active">
+▣ <b>Dashboard</b>
+</button>
+
+<button data-page="clientes">
+◉ <b>Clientes</b>
+</button>
+
+<button data-page="conteudos">
+▤ <b>Conteúdos</b>
+</button>
+
+<button data-page="calendario">
+□ <b>Calendário</b>
+</button>
+
+<button data-page="aprovacoes">
+✓ <b>Aprovações</b>
+</button>
+
+<button data-page="equipe">
+◌ <b>Equipe</b>
+</button>
+
+<button data-page="trafego">
+⌁ <b>Tráfego Pago</b>
+</button>
+
+<button data-page="financeiro">
+R$ <b>Financeiro</b>
+</button>
+
+<button data-page="backup">
+↕ <b>Backup / Dados</b>
+</button>
+
+</nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="top">
+
+<div class="title">
+
+<h1 id="pageTitle">
+Dashboard
+</h1>
+
+<p id="pageSub">
+Central de operação da N7 Company
+</p>
+
+</div>
+
+<div class="actions">
+
+<button class="btn" onclick="openQuick()">
++ Nova tarefa
+</button>
+
+<button class="btn red" onclick="newContent()">
++ Conteúdo
+</button>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="page active">
+
+<div class="grid cards" id="metrics"></div>
+
+<div class="layout">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Prioridades de hoje
+</h2>
+
+<button class="btn small" onclick="go('conteudos')">
+Ver produção
+</button>
+
+</div>
+
+<div id="priorities" class="list"></div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Saúde dos clientes
+</h2>
+
+<button class="btn small" onclick="go('clientes')">
+Clientes
+</button>
+
+</div>
+
+<div id="health" class="list"></div>
+
+</div>
+
+</div>
+
+<div class="layout">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Próximos conteúdos
+</h2>
+
+<button class="btn small" onclick="newContent()">
+Adicionar
+</button>
+
+</div>
+
+<div id="nextContent" class="list"></div>
+
+</div>
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Financeiro do mês
+</h2>
+
+</div>
+
+<div id="financeSummary"></div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CLIENTES -->
+
+<section id="clientes" class="page">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Clientes
+</h2>
+
+<button class="btn red" onclick="newClient()">
++ Novo cliente
+</button>
+
+</div>
+
+<div class="filters">
+
+<input
+class="input"
+id="clientSearch"
+placeholder="Buscar cliente..."
+oninput="renderClients()">
+
+<select
+class="select"
+id="clientStatus"
+onchange="renderClients()">
+
+<option value="">
+Todos os status
+</option>
+
+<option>
+Ativo
+</option>
+
+<option>
+Pausado
+</option>
+
+<option>
+Encerrado
+</option>
+
+</select>
+
+</div>
+
+<div class="tablewrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>
+Cliente
+</th>
+
+<th>
+Segmento
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Posts/semana
+</th>
+
+<th>
+Saúde
+</th>
+
+<th>
+Vencimento
+</th>
+
+<th>
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="clientTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTEUDOS -->
+
+<section id="conteudos" class="page">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Central de produção
+</h2>
+
+<button class="btn red" onclick="newContent()">
++ Novo conteúdo
+</button>
+
+</div>
+
+<div class="filters">
+
+<input
+class="input"
+id="contentSearch"
+placeholder="Buscar conteúdo..."
+oninput="renderContents()">
+
+<select
+class="select"
+id="contentStatus"
+onchange="renderContents()">
+
+<option value="">
+Todos os status
+</option>
+
+<option>
+Ideia
+</option>
+
+<option>
+Planejamento
+</option>
+
+<option>
+Em produção
+</option>
+
+<option>
+Revisão
+</option>
+
+<option>
+Enviado
+</option>
+
+<option>
+Aprovado
+</option>
+
+<option>
+Agendado
+</option>
+
+<option>
+Publicado
+</option>
+
+</select>
+
+<select
+class="select"
+id="contentClient"
+onchange="renderContents()">
+
+<option value="">
+Todos os clientes
+</option>
+
+</select>
+
+</div>
+
+<div class="tablewrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>
+Data
+</th>
+
+<th>
+Cliente
+</th>
+
+<th>
+Tema
+</th>
+
+<th>
+Formato
+</th>
+
+<th>
+Responsável
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Ações
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="contentTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CALENDARIO -->
+
+<section id="calendario" class="page">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<button class="btn" onclick="changeMonth(-1)">
+←
+</button>
+
+<h2 id="monthTitle"></h2>
+
+<button class="btn" onclick="changeMonth(1)">
+→
+</button>
+
+<button class="btn red" onclick="newContent()">
++ Conteúdo
+</button>
+
+</div>
+
+<div class="calendar" id="calendar"></div>
+
+</div>
+
+</section>
+
+<!-- APROVACOES -->
+
+<section id="aprovacoes" class="page">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Central de aprovações
+</h2>
+
+</div>
+
+<div id="approvalList" class="list"></div>
+
+</div>
+
+</section>
+
+<!-- EQUIPE -->
+
+<section id="equipe" class="page">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Equipe e tarefas
+</h2>
+
+<button class="btn red" onclick="newTeam()">
++ Membro
+</button>
+
+</div>
+
+<div id="teamList" class="list"></div>
+
+</div>
+
+</section>
+
+<!-- TRAFEGO -->
+
+<section id="trafego" class="page">
+
+<div class="panel">
+
+<div class="panel-head">
+
+<h2>
+Tráfego pago
+</h2>
+
+<button class="btn red" onclick="newTraffic()">
++ Campanha
+</button>
+
+</div>
+
+<div class="tablewrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Cliente</th>
+<th>Campanha</th>
+<th>Investimento</th>
+<th>Leads</th>
+<th>CPL</th>
+<th>Conversões</th>
+<th>ROAS</th>
+<th>Período</th>
+
+</tr>
+
+</thead>
+
+<tbody id="trafficTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FINANCEIRO -->
+
+<section id="financeiro" class="page">
+
+<div class="grid cards" id="financeCards"></div>
+
+<div class="panel" style="margin-top:14px">
+
+<div class="panel-head">
+
+<h2>
+Mensalidades
+</h2>
+
+<button class="btn red" onclick="newFinance()">
++ Recebimento
+</button>
+
+</div>
+
+<div class="tablewrap">
+
+<table class="table">
+
+<thead>
+
+<tr>
+
+<th>Cliente</th>
+<th>Valor</th>
+<th>Vencimento</th>
+<th>Status</th>
+<th>Forma</th>
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody id="financeTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- BACKUP -->
+
+<section id="backup" class="page">
+
+<div class="panel">
+
+<h2>
+Backup e dados
+</h2>
+
+<p style="color:#aaa">
+
+Exporte todos os dados do N7 Gestão para um arquivo JSON e guarde uma cópia.
+
+Para restaurar, selecione o arquivo exportado.
+
+</p>
+
+<div class="actions">
+
+<button
+class="btn red"
+onclick="exportData()">
+
+Exportar backup
+
+</button>
+
+<label class="btn">
+
+Importar backup
+
+<input
+type="file"
+id="importFile"
+accept=".json"
+hidden
+onchange="importData(event)">
+
+</label>
+
+<button
+class="btn danger"
+onclick="resetData()">
+
+Apagar todos os dados
+
+</button>
+
+</div>
+
+<hr style="border-color:#222;margin:22px 0">
+
+<div id="dataInfo"></div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<!-- MOBILE -->
+
+<div class="mobilebar">
+
+<button data-page="dashboard" class="active">
+Dashboard
+</button>
+
+<button data-page="clientes">
+Clientes
+</button>
+
+<button data-page="conteudos">
+Conteúdos
+</button>
+
+<button data-page="calendario">
+Agenda
+</button>
+
+<button data-page="financeiro">
+Financeiro
+</button>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modalbox">
+
+<div class="modalhead">
+
+<h3 id="modalTitle">
+Novo
+</h3>
+
+<button class="close" onclick="closeModal()">
+×
+</button>
+
+</div>
+
+<div id="modalBody"></div>
+
+<div class="modalfoot">
+
+<button
+class="btn"
+onclick="closeModal()">
+
+Cancelar
+
+</button>
+
+<button
+class="btn red"
+id="modalSave">
+
+Salvar
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+const KEY='n7_gestao_v1';
+
+const defaultData={
+clients:[],
+contents:[],
+team:[
+{
+id:id(),
+name:'Kennedy',
+role:'CEO / Gestão',
+tasks:0,
+status:'Ativo'
+}
+],
+traffic:[],
+finances:[]
+};
+
+let data=load();
+
+let currentPage='dashboard';
+
+let calDate=new Date();
+
+function id(){
+
+return Date.now().toString(36)+
+Math.random().toString(36).slice(2,7);
+
+}
+
+function load(){
+
+try{
+
+return {
+...defaultData,
+...JSON.parse(
+localStorage.getItem(KEY)||'{}'
+)
+};
+
+}catch(e){
+
+return structuredClone(defaultData);
+
+}
+
+}
+
+function save(){
+
+localStorage.setItem(
+KEY,
+JSON.stringify(data)
+);
+
+renderAll();
+
+}
+
+function esc(v=''){
+
+return String(v).replace(
+/[&<>"']/g,
+m=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[m])
+);
+
+}
+
+function money(v){
+
+return Number(v||0).toLocaleString(
+'pt-BR',
+{
+style:'currency',
+currency:'BRL'
+}
+);
+
+}
+
+function today(){
+
+return new Date()
+.toISOString()
+.slice(0,10);
+
+}
+
+function fmtDate(d){
+
+if(!d)return '-';
+
+return new Date(d+'T12:00:00')
+.toLocaleDateString('pt-BR');
+
+}
+
+function toast(t){
+
+const x=document.getElementById('toast');
+
+x.textContent=t;
+
+x.classList.add('show');
+
+setTimeout(
+()=>x.classList.remove('show'),
+2200
+);
+
+}
+
+function go(page){
+
+currentPage=page;
+
+document
+.querySelectorAll('.page')
+.forEach(x=>x.classList.remove('active'));
+
+document
+.getElementById(page)
+.classList.add('active');
+
+document
+.querySelectorAll('[data-page]')
+.forEach(
+x=>x.classList.toggle(
+'active',
+x.dataset.page===page
+)
+);
+
+const names={
+
+dashboard:[
+'Dashboard',
+'Central de operação da N7 Company'
+],
+
+clientes:[
+'Clientes',
+'Carteira e saúde dos clientes'
+],
+
+conteudos:[
+'Conteúdos',
+'Produção, aprovação e publicação'
+],
+
+calendario:[
+'Calendário',
+'Visão mensal das publicações'
+],
+
+aprovacoes:[
+'Aprovações',
+'Conteúdos aguardando retorno'
+],
+
+equipe:[
+'Equipe',
+'Responsáveis e tarefas'
+],
+
+trafego:[
+'Tráfego Pago',
+'Campanhas e indicadores'
+],
+
+financeiro:[
+'Financeiro',
+'Mensalidades e recebimentos'
+],
+
+backup:[
+'Backup / Dados',
+'Segurança dos dados locais'
+]
+
+};
+
+document.getElementById(
+'pageTitle'
+).textContent=names[page][0];
+
+document.getElementById(
+'pageSub'
+).textContent=names[page][1];
+
+renderAll();
+
+}
+
+document
+.querySelectorAll('[data-page]')
+.forEach(
+b=>b.onclick=()=>go(b.dataset.page)
+);
+
+function clientName(id){
+
+return data.clients.find(
+c=>c.id===id
+)?.name||
+'Cliente removido';
+
+}
+
+function statusBadge(s){
+
+let c=
+
+[
+'Publicado',
+'Aprovado',
+'Agendado',
+'Ativo',
+'Pago'
+].includes(s)
+?'green':
+
+[
+'Revisão',
+'Enviado',
+'Em produção',
+'Pendente'
+].includes(s)
+?'yellow':
+
+[
+'Atrasado',
+'Inadimplente'
+].includes(s)
+?'red'
+:'blue';
+
+return `
+<span class="badge ${c}">
+${esc(s)}
+</span>
+`;
+
+}
+
+function contentHealth(c){
+
+if(c.status==='Publicado')
+return ['Em dia','green'];
+
+if(
+c.date<today() &&
+c.status!=='Publicado'
+)
+return ['Atrasado','red'];
+
+if(
+c.date<=
+new Date(
+Date.now()+172800000
+)
+.toISOString()
+.slice(0,10)
+&&
+c.status!=='Agendado'
+)
+return ['Atenção','yellow'];
+
+return ['Em dia','green'];
+
+}
+
+function renderDashboard(){
+
+const overdue=
+data.contents.filter(
+c=>
+c.date<today() &&
+c.status!=='Publicado'
+).length;
+
+const todayCount=
+data.contents.filter(
+c=>
+c.date===today() &&
+c.status!=='Publicado'
+).length;
+
+const pending=
+data.contents.filter(
+c=>
+[
+'Revisão',
+'Enviado'
+].includes(c.status)
+).length;
+
+const scheduled=
+data.contents.filter(
+c=>
+[
+'Agendado',
+'Publicado'
+].includes(c.status)&&
+c.date>=today()
+).length;
+
+document.getElementById(
+'metrics'
+).innerHTML=[
+
+[
+'Atrasados',
+overdue,
+'redtxt'
+],
+
+[
+'Para produzir hoje',
+todayCount,
+'yellowtxt'
+],
+
+[
+'Aguardando aprovação',
+pending,
+'yellowtxt'
+],
+
+[
+'Agendados',
+scheduled,
+'greentxt'
+]
+
+].map(x=>`
+
+<div class="card">
+
+<div class="label">
+${x[0]}
+</div>
+
+<div class="metric ${x[2]}">
+${x[1]}
+</div>
+
+<div class="label">
+Atualizado agora
+</div>
+
+</div>
+
+`).join('');
+
+let pr=
+data.contents
+.filter(
+c=>c.status!=='Publicado'
+)
+.sort(
+(a,b)=>
+(a.date||'')
+.localeCompare(b.date||'')
+)
+.slice(0,7);
+
+document.getElementById(
+'priorities'
+).innerHTML=
+
+pr.length?
+
+pr.map(c=>{
+
+let h=contentHealth(c);
+
+return `
+
+<div class="item ${
+h[1]==='red'
+?'dangerline'
+:h[1]==='yellow'
+?'warningline'
+:'successline'
+}">
+
+<strong>
+${esc(clientName(c.clientId))}
+—
+${esc(c.title)}
+</strong>
+
+<small>
+${fmtDate(c.date)}
+•
+${esc(c.format)}
+•
+${statusBadge(c.status)}
+</small>
+
+</div>
+
+`;
+
+}).join('')
+
+:
+
+'<div class="empty">Nenhuma pendência. Operação em dia.</div>';
+
+let hs=
+data.clients
+.filter(
+c=>c.status==='Ativo'
+)
+.map(c=>{
+
+let cs=
+data.contents.filter(
+x=>
+x.clientId===c.id &&
+x.date>=today() &&
+x.status!=='Publicado'
+);
+
+let late=
+data.contents.filter(
+x=>
+x.clientId===c.id &&
+x.date<today() &&
+x.status!=='Publicado'
+).length;
+
+return {
+c,
+cs,
+late
+};
+
+})
+.slice(0,8);
+
+document.getElementById(
+'health'
+).innerHTML=
+
+hs.length?
+
+hs.map(x=>`
+
+<div class="item">
+
+<strong>
+
+${esc(x.c.name)}
+
+<span class="badge ${
+x.late?'red':'green'
+}">
+
+${x.late?'Risco':'Em dia'}
+
+</span>
+
+</strong>
+
+<small>
+
+${x.cs.length}
+conteúdo(s) próximos
+
+${x.late?
+' • '+x.late+' atrasado(s)'
+:''}
+
+</small>
+
+</div>
+
+`).join('')
+
+:
+
+'<div class="empty">Cadastre clientes para acompanhar a saúde.</div>';
+
+let nc=
+data.contents
+.filter(
+c=>
+c.date>=today() &&
+c.status!=='Publicado'
+)
+.sort(
+(a,b)=>
+a.date.localeCompare(b.date)
+)
+.slice(0,6);
+
+document.getElementById(
+'nextContent'
+).innerHTML=
+
+nc.length?
+
+nc.map(c=>`
+
+<div class="item">
+
+<strong>
+
+${fmtDate(c.date)}
+—
+${esc(c.title)}
+
+</strong>
+
+<small>
+
+${esc(clientName(c.clientId))}
+•
+${statusBadge(c.status)}
+
+</small>
+
+</div>
+
+`).join('')
+
+:
+
+'<div class="empty">Nenhum conteúdo futuro.</div>';
+
+const total=
+data.finances.reduce(
+(a,x)=>a+Number(x.value||0),
+0
+);
+
+const paid=
+data.finances
+.filter(x=>x.status==='Pago')
+.reduce(
+(a,x)=>a+Number(x.value||0),
+0
+);
+
+const open=total-paid;
+
+document.getElementById(
+'financeSummary'
+).innerHTML=`
+
+<div class="metric">
+${money(paid)}
+</div>
+
+<div class="label">
+Recebido
+</div>
+
+<div style="margin-top:16px">
+
+<div class="label">
+Em aberto
+</div>
+
+<div style="font-size:20px;font-weight:800;margin-top:4px">
+${money(open)}
+</div>
+
+</div>
+
+<div style="margin-top:16px" class="progress">
+
+<i style="width:${
+total
+?Math.min(100,paid/total*100)
+:0
+}%"></i>
+
+</div>
+
+`;
+
+}
+
+function renderClients(){
+
+const q=
+(
+document.getElementById(
+'clientSearch'
+)?.value||''
+).toLowerCase();
+
+const st=
+document.getElementById(
+'clientStatus'
+)?.value||'';
+
+const arr=
+data.clients.filter(
+c=>
+(
+!q||
+c.name.toLowerCase().includes(q)||
+c.segment.toLowerCase().includes(q)
+)&&
+(!st||c.status===st)
+);
+
+document.getElementById(
+'clientTable'
+).innerHTML=
+
+arr.length?
+
+arr.map(c=>{
+
+let late=
+data.contents.filter(
+x=>
+x.clientId===c.id &&
+x.date<today() &&
+x.status!=='Publicado'
+).length;
+
+let h=
+late?'Risco':'Em dia';
+
+return `
+
+<tr>
+
+<td>
+
+<strong>
+${esc(c.name)}
+</strong>
+
+<br>
+
+<small style="color:#777">
+${esc(c.instagram||'')}
+</small>
+
+</td>
+
+<td>
+${esc(c.segment)}
+</td>
+
+<td>
+${statusBadge(c.status)}
+</td>
+
+<td>
+${c.posts||5}
+</td>
+
+<td>
+${statusBadge(h)}
+</td>
+
+<td>
+${fmtDate(c.due)}
+</td>
+
+<td>
+
+<button
+class="btn small"
+onclick="editClient('${c.id}')">
+
+Editar
+
+</button>
+
+<button
+class="btn small danger"
+onclick="delClient('${c.id}')">
+
+Excluir
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}).join('')
+
+:
+
+'<tr><td colspan="7" class="empty">Nenhum cliente encontrado.</td></tr>';
+
+}
+
+function fillClientFilter(){
+
+const s=
+document.getElementById(
+'contentClient'
+);
+
+if(!s)return;
+
+let val=s.value;
+
+s.innerHTML=
+'<option value="">Todos os clientes</option>'+
+data.clients.map(
+c=>
+`<option value="${c.id}">
+${esc(c.name)}
+</option>`
+).join('');
+
+s.value=val;
+
+}
+
+function renderContents(){
+
+fillClientFilter();
+
+let q=
+(
+document.getElementById(
+'contentSearch'
+)?.value||''
+).toLowerCase();
+
+let st=
+document.getElementById(
+'contentStatus'
+)?.value||'';
+
+let cl=
+document.getElementById(
+'contentClient'
+)?.value||'';
+
+let arr=
+data.contents.filter(
+c=>
+(
+!q||
+c.title.toLowerCase().includes(q)||
+clientName(c.clientId)
+.toLowerCase()
+.includes(q)
+)&&
+(!st||c.status===st)&&
+(!cl||c.clientId===cl)
+)
+.sort(
+(a,b)=>
+(a.date||'')
+.localeCompare(b.date||'')
+);
+
+document.getElementById(
+'contentTable'
+).innerHTML=
+
+arr.length?
+
+arr.map(c=>`
+
+<tr>
+
+<td>
+${fmtDate(c.date)}
+</td>
+
+<td>
+<strong>
+${esc(clientName(c.clientId))}
+</strong>
+</td>
+
+<td>
+${esc(c.title)}
+</td>
+
+<td>
+${esc(c.format)}
+</td>
+
+<td>
+${esc(c.owner||'-')}
+</td>
+
+<td>
+${statusBadge(c.status)}
+</td>
+
+<td>
+
+<button
+class="btn small"
+onclick="editContent('${c.id}')">
+
+Editar
+
+</button>
+
+<button
+class="btn small danger"
+onclick="delContent('${c.id}')">
+
+×
+
+</button>
+
+</td>
+
+</tr>
+
+`).join('')
+
+:
+
+'<tr><td colspan="7" class="empty">Nenhum conteúdo encontrado.</td></tr>';
+
+}
+
+function renderCalendar(){
+
+const y=calDate.getFullYear();
+
+const m=calDate.getMonth();
+
+const first=
+new Date(y,m,1);
+
+const last=
+new Date(y,m+1,0);
+
+const start=
+(first.getDay()+6)%7;
+
+document.getElementById(
+'monthTitle'
+).textContent=
+new Date(y,m,1)
+.toLocaleDateString(
+'pt-BR',
+{
+month:'long',
+year:'numeric'
+}
+)
+.replace(
+/^./,
+x=>x.toUpperCase()
+);
+
+let h=[
+'Seg',
+'Ter',
+'Qua',
+'Qui',
+'Sex',
+'Sáb',
+'Dom'
+]
+.map(
+x=>`
+<div class="dayname">
+${x}
+</div>
+`
+)
+.join('');
+
+for(
+let i=0;
+i<start;
+i++
+)
+h+='<div></div>';
+
+for(
+let d=1;
+d<=last.getDate();
+d++
+){
+
+let ds=
+`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+let ev=
+data.contents.filter(
+c=>c.date===ds
+);
+
+h+=`
+
+<div class="day ${
+ds===today()?'today':''
+}">
+
+<div class="daynum">
+${d}
+</div>
+
+${ev.map(c=>`
+
+<div
+class="event ${
+c.status==='Publicado'
+?'green'
+:c.status==='Aprovado'
+?'yellow'
+:''
+}"
+onclick="editContent('${c.id}')">
+
+${esc(clientName(c.clientId))}
+—
+${esc(c.title)}
+
+</div>
+
+`).join('')}
+
+<button
+style="border:0;background:none;color:#666;font-size:10px"
+onclick="newContent('${ds}')">
+
++ adicionar
+
+</button>
+
+</div>
+
+`;
+
+}
+
+document.getElementById(
+'calendar'
+).innerHTML=h;
+
+}
+
+function changeMonth(n){
+
+calDate.setMonth(
+calDate.getMonth()+n
+);
+
+renderCalendar();
+
+}
+
+function renderApprovals(){
+
+let a=
+data.contents.filter(
+c=>
+[
+'Revisão',
+'Enviado'
+].includes(c.status)
+);
+
+document.getElementById(
+'approvalList'
+).innerHTML=
+
+a.length?
+
+a.map(c=>`
+
+<div class="item warningline">
+
+<strong>
+
+${esc(clientName(c.clientId))}
+—
+${esc(c.title)}
+
+</strong>
+
+<small>
+
+${fmtDate(c.date)}
+•
+${esc(c.format)}
+•
+${statusBadge(c.status)}
+
+</small>
+
+<div style="margin-top:10px;display:flex;gap:7px">
+
+<button
+class="btn small red"
+onclick="setContentStatus('${c.id}','Aprovado')">
+
+Aprovar
+
+</button>
+
+<button
+class="btn small"
+onclick="setContentStatus('${c.id}','Em produção')">
+
+Solicitar ajuste
+
+</button>
+
+</div>
+
+</div>
+
+`).join('')
+
+:
+
+'<div class="empty">Nenhum conteúdo aguardando aprovação.</div>';
+
+}
+
+function renderTeam(){
+
+document.getElementById(
+'teamList'
+).innerHTML=
+
+data.team.length?
+
+data.team.map(t=>`
+
+<div class="item">
+
+<strong>
+
+${esc(t.name)}
+
+<span class="badge green">
+${esc(t.status||'Ativo')}
+</span>
+
+</strong>
+
+<small>
+
+${esc(t.role||'')}
+•
+${t.tasks||0}
+tarefa(s)
+
+</small>
+
+<div style="margin-top:8px">
+
+<button
+class="btn small"
+onclick="editTeam('${t.id}')">
+
+Editar
+
+</button>
+
+<button
+class="btn small danger"
+onclick="delTeam('${t.id}')">
+
+Excluir
+
+</button>
+
+</div>
+
+</div>
+
+`).join('')
+
+:
+
+'<div class="empty">Nenhum membro.</div>';
+
+}
+
+function renderTraffic(){
+
+document.getElementById(
+'trafficTable'
+).innerHTML=
+
+data.traffic.length?
+
+data.traffic.map(t=>{
+
+let cpl=
+t.leads?
+Number(t.invest)/
+Number(t.leads)
+:0;
+
+let roas=
+t.revenue&&t.invest?
+Number(t.revenue)/
+Number(t.invest)
+:0;
+
+return `
+
+<tr>
+
+<td>
+${esc(clientName(t.clientId))}
+</td>
+
+<td>
+${esc(t.name)}
+</td>
+
+<td>
+${money(t.invest)}
+</td>
+
+<td>
+${t.leads||0}
+</td>
+
+<td>
+${money(cpl)}
+</td>
+
+<td>
+${t.conv||0}
+</td>
+
+<td>
+${roas.toFixed(2)}x
+</td>
+
+<td>
+${esc(t.period||'-')}
+</td>
+
+</tr>
+
+`;
+
+}).join('')
+
+:
+
+'<tr><td colspan="8" class="empty">Nenhuma campanha cadastrada.</td></tr>';
+
+}
+
+function renderFinance(){
+
+let total=
+data.finances.reduce(
+(a,x)=>a+Number(x.value||0),
+0
+);
+
+let paid=
+data.finances
+.filter(x=>x.status==='Pago')
+.reduce(
+(a,x)=>a+Number(x.value||0),
+0
+);
+
+let open=total-paid;
+
+let late=
+data.finances.filter(
+x=>
+x.status!=='Pago' &&
+x.due<today()
+).length;
+
+document.getElementById(
+'financeCards'
+).innerHTML=[
+
+[
+'Recebido',
+money(paid),
+'greentxt'
+],
+
+[
+'Em aberto',
+money(open),
+'yellowtxt'
+],
+
+[
+'Total lançado',
+money(total),
+'bluetxt'
+],
+
+[
+'Inadimplentes',
+late,
+'redtxt'
+]
+
+].map(x=>`
+
+<div class="card">
+
+<div class="label">
+${x[0]}
+</div>
+
+<div class="metric ${x[2]}">
+${x[1]}
+</div>
+
+</div>
+
+`).join('');
+
+document.getElementById(
+'financeTable'
+).innerHTML=
+
+data.finances.length?
+
+data.finances.map(f=>`
+
+<tr>
+
+<td>
+${esc(clientName(f.clientId))}
+</td>
+
+<td>
+${money(f.value)}
+</td>
+
+<td>
+${fmtDate(f.due)}
+</td>
+
+<td>
+${statusBadge(f.status)}
+</td>
+
+<td>
+${esc(f.method||'-')}
+</td>
+
+<td>
+
+<button
+class="btn small"
+onclick="toggleFinance('${f.id}')">
+
+${f.status==='Pago'
+?'Reabrir'
+:'Marcar pago'}
+
+</button>
+
+<button
+class="btn small danger"
+onclick="delFinance('${f.id}')">
+
+×
+
+</button>
+
+</td>
+
+</tr>
+
+`).join('')
+
+:
+
+'<tr><td colspan="6" class="empty">Nenhum lançamento financeiro.</td></tr>';
+
+}
+
+function renderBackup(){
+
+document.getElementById(
+'dataInfo'
+).innerHTML=`
+
+<div class="item">
+
+<strong>
+Dados armazenados neste navegador
+</strong>
+
+<small>
+
+${data.clients.length}
+clientes
+•
+
+${data.contents.length}
+conteúdos
+•
+
+${data.team.length}
+membros
+•
+
+${data.traffic.length}
+campanhas
+•
+
+${data.finances.length}
+lançamentos financeiros
+
+</small>
+
+</div>
+
+`;
+
+}
+
+function renderAll(){
+
+renderDashboard();
+renderClients();
+renderContents();
+renderCalendar();
+renderApprovals();
+renderTeam();
+renderTraffic();
+renderFinance();
+renderBackup();
+
+}
+
+function openModal(
+title,
+body,
+onSave
+){
+
+document.getElementById(
+'modalTitle'
+).textContent=title;
+
+document.getElementById(
+'modalBody'
+).innerHTML=body;
+
+document.getElementById(
+'modal'
+).classList.add('open');
+
+document.getElementById(
+'modalSave'
+).onclick=()=>{
+
+if(onSave())
+closeModal();
+
+};
+
+}
+
+function closeModal(){
+
+document
+.getElementById('modal')
+.classList.remove('open');
+
+}
+
+function F(
+label,
+name,
+value='',
+type='text',
+opts=''
+){
+
+return `
+
+<div class="field">
+
+<label>
+${label}
+</label>
+
+${
+type==='select'
+
+?
+
+`<select
+class="select"
+id="f_${name}">
+${opts}
+</select>`
+
+:
+
+`<input
+class="input"
+id="f_${name}"
+type="${type}"
+value="${esc(value)}">`
+
+}
+
+</div>
+
+`;
+
+}
+
+function clientOpts(selected=''){
+
+return data.clients.map(
+c=>
+`<option
+value="${c.id}"
+${c.id===selected?'selected':''}>
+${esc(c.name)}
+</option>`
+).join('');
+
+}
+
+function newClient(existing=null){
+
+let c=
+existing||
+
+{
+id:id(),
+name:'',
+segment:'',
+instagram:'',
+status:'Ativo',
+posts:5,
+due:'',
+value:200,
+notes:''
+};
+
+openModal(
+
+existing
+?'Editar cliente'
+:'Novo cliente',
+
+`
+
+<div class="formgrid">
+
+${F(
+'Nome da empresa *',
+'name',
+c.name
+)}
+
+${F(
+'Segmento',
+'segment',
+c.segment
+)}
+
+${F(
+'Instagram',
+'instagram',
+c.instagram
+)}
+
+${F(
+'Status',
+'status',
+c.status,
+'select',
+`
+<option>Ativo</option>
+<option>Pausado</option>
+<option>Encerrado</option>
+`
+)}
+
+${F(
+'Posts por semana',
+'posts',
+c.posts,
+'number'
+)}
+
+${F(
+'Vencimento',
+'due',
+c.due,
+'date'
+)}
+
+${F(
+'Valor mensal',
+'value',
+c.value,
+'number'
+)}
+
+<div class="field full">
+
+<label>
+Observações
+</label>
+
+<textarea
+class="textarea"
+id="f_notes">${esc(c.notes||'')}</textarea>
+
+</div>
+
+</div>
+
+`,
+
+()=>{
+
+let name=f('name');
+
+if(!name){
+
+toast(
+'Informe o nome do cliente'
+);
+
+return false;
+
+}
+
+Object.assign(
+c,
+{
+name,
+segment:f('segment'),
+instagram:f('instagram'),
+status:f('status'),
+posts:Number(f('posts')||5),
+due:f('due'),
+value:Number(f('value')||0),
+notes:
+document.getElementById(
+'f_notes'
+).value
+}
+);
+
+if(!existing)
+data.clients.push(c);
+
+save();
+
+toast(
+'Cliente salvo'
+);
+
+return true;
+
+}
+
+);
+
+}
+
+function editClient(i){
+
+newClient(
+data.clients.find(
+c=>c.id===i
+)
+);
+
+}
+
+function delClient(i){
+
+if(
+confirm(
+'Excluir este cliente? Os conteúdos serão mantidos.'
+)
+){
+
+data.clients=
+data.clients.filter(
+c=>c.id!==i
+);
+
+save();
+
+toast(
+'Cliente excluído'
+);
+
+}
+
+}
+
+function newContent(
+date=today(),
+existing=null
+){
+
+let c=
+
+existing||
+
+{
+id:id(),
+clientId:data.clients[0]?.id||'',
+title:'',
+date,
+format:'Post',
+owner:'Kennedy',
+status:'Planejamento',
+caption:'',
+art:'',
+notes:''
+};
+
+let statusOpts=
+[
+'Ideia',
+'Planejamento',
+'Em produção',
+'Revisão',
+'Enviado',
+'Aprovado',
+'Agendado',
+'Publicado'
+]
+.map(
+x=>
+`<option
+${x===c.status?'selected':''}>
+${x}
+</option>`
+)
+.join('');
+
+let fmt=
+[
+'Post',
+'Reels',
+'Carrossel',
+'Stories',
+'Criativo',
+'Vídeo'
+]
+.map(
+x=>
+`<option
+${x===c.format?'selected':''}>
+${x}
+</option>`
+)
+.join('');
+
+openModal(
+
+existing
+?'Editar conteúdo'
+:'Novo conteúdo',
+
+`
+
+<div class="formgrid">
+
+${F(
+'Cliente *',
+'clientId',
+c.clientId,
+'select',
+clientOpts(c.clientId)||
+'<option>Cadastre um cliente primeiro</option>'
+)}
+
+${F(
+'Data de publicação *',
+'date',
+c.date,
+'date'
+)}
+
+${F(
+'Tema / título *',
+'title',
+c.title
+)}
+
+${F(
+'Formato',
+'format',
+c.format,
+'select',
+fmt
+)}
+
+${F(
+'Responsável',
+'owner',
+c.owner
+)}
+
+${F(
+'Status',
+'status',
+c.status,
+'select',
+statusOpts
+)}
+
+<div class="field full">
+
+<label>
+Legenda
+</label>
+
+<textarea
+class="textarea"
+id="f_caption">${esc(c.caption||'')}</textarea>
+
+</div>
+
+<div class="field full">
+
+<label>
+Link da arte / arquivo
+</label>
+
+<input
+class="input"
+id="f_art"
+value="${esc(c.art||'')}">
+
+</div>
+
+<div class="field full">
+
+<label>
+Observações
+</label>
+
+<textarea
+class="textarea"
+id="f_notes">${esc(c.notes||'')}</textarea>
+
+</div>
+
+</div>
+
+`,
+
+()=>{
+
+let title=f('title');
+
+if(
+!f('clientId')||
+!title
+){
+
+toast(
+'Cliente e título são obrigatórios'
+);
+
+return false;
+
+}
+
+Object.assign(
+c,
+{
+clientId:f('clientId'),
+date:f('date'),
+title,
+format:f('format'),
+owner:f('owner'),
+status:f('status'),
+caption:
+document.getElementById(
+'f_caption'
+).value,
+art:
+document.getElementById(
+'f_art'
+).value,
+notes:
+document.getElementById(
+'f_notes'
+).value
+}
+);
+
+if(!existing)
+data.contents.push(c);
+
+save();
+
+toast(
+'Conteúdo salvo'
+);
+
+return true;
+
+}
+
+);
+
+}
+
+function editContent(i){
+
+newContent(
+'',
+data.contents.find(
+c=>c.id===i
+)
+);
+
+}
+
+function delContent(i){
+
+if(
+confirm(
+'Excluir este conteúdo?'
+)
+){
+
+data.contents=
+data.contents.filter(
+c=>c.id!==i
+);
+
+save();
+
+toast(
+'Conteúdo excluído'
+);
+
+}
+
+}
+
+function setContentStatus(
+i,
+s
+){
+
+let c=
+data.contents.find(
+x=>x.id===i
+);
+
+if(c){
+
+c.status=s;
+
+save();
+
+toast(
+'Status atualizado'
+);
+
+}
+
+}
+
+function newTeam(existing=null){
+
+let t=
+
+existing||
+
+{
+id:id(),
+name:'',
+role:'',
+tasks:0,
+status:'Ativo'
+};
+
+openModal(
+
+existing
+?'Editar membro'
+:'Novo membro',
+
+`
+
+<div class="formgrid">
+
+${F(
+'Nome',
+'name',
+t.name
+)}
+
+${F(
+'Função',
+'role',
+t.role
+)}
+
+${F(
+'Tarefas atuais',
+'tasks',
+t.tasks,
+'number'
+)}
+
+${F(
+'Status',
+'status',
+t.status,
+'select',
+`
+<option>Ativo</option>
+<option>Inativo</option>
+`
+)}
+
+</div>
+
+`,
+
+()=>{
+
+Object.assign(
+t,
+{
+name:f('name'),
+role:f('role'),
+tasks:Number(
+f('tasks')||0
+),
+status:f('status')
+}
+);
+
+if(!existing)
+data.team.push(t);
+
+save();
+
+return true;
+
+}
+
+);
+
+}
+
+function editTeam(i){
+
+newTeam(
+data.team.find(
+t=>t.id===i
+)
+);
+
+}
+
+function delTeam(i){
+
+if(
+confirm(
+'Excluir membro?'
+)
+){
+
+data.team=
+data.team.filter(
+t=>t.id!==i
+);
+
+save();
+
+}
+
+}
+
+function newTraffic(){
+
+openModal(
+
+'Nova campanha',
+
+`
+
+<div class="formgrid">
+
+${F(
+'Cliente',
+'clientId',
+'',
+'select',
+clientOpts()
+)}
+
+${F(
+'Campanha',
+'name'
+)}
+
+${F(
+'Investimento',
+'invest',
+'0',
+'number'
+)}
+
+${F(
+'Leads',
+'leads',
+'0',
+'number'
+)}
+
+${F(
+'Conversões',
+'conv',
+'0',
+'number'
+)}
+
+${F(
+'Receita atribuída',
+'revenue',
+'0',
+'number'
+)}
+
+${F(
+'Período',
+'period'
+)}
+
+</div>
+
+`,
+
+()=>{
+
+data.traffic.push({
+
+id:id(),
+clientId:f('clientId'),
+name:f('name'),
+invest:Number(
+f('invest')||0
+),
+leads:Number(
+f('leads')||0
+),
+conv:Number(
+f('conv')||0
+),
+revenue:Number(
+f('revenue')||0
+),
+period:f('period')
+
+});
+
+save();
+
+return true;
+
+}
+
+);
+
+}
+
+function newFinance(){
+
+openModal(
+
+'Novo lançamento financeiro',
+
+`
+
+<div class="formgrid">
+
+${F(
+'Cliente',
+'clientId',
+'',
+'select',
+clientOpts()
+)}
+
+${F(
+'Valor',
+'value',
+'200',
+'number'
+)}
+
+${F(
+'Vencimento',
+'due',
+today(),
+'date'
+)}
+
+${F(
+'Status',
+'status',
+'Pendente',
+'select',
+`
+<option>Pendente</option>
+<option>Pago</option>
+<option>Inadimplente</option>
+`
+)}
+
+${F(
+'Forma de pagamento',
+'method',
+'Pix'
+)}
+
+</div>
+
+`,
+
+()=>{
+
+data.finances.push({
+
+id:id(),
+
+clientId:f('clientId'),
+
+value:Number(
+f('value')||0
+),
+
+due:f('due'),
+
+status:f('status'),
+
+method:f('method')
+
+});
+
+save();
+
+return true;
+
+}
+
+);
+
+}
+
+function toggleFinance(i){
+
+let fz=
+data.finances.find(
+x=>x.id===i
+);
+
+if(fz){
+
+fz.status=
+fz.status==='Pago'
+?'Pendente'
+:'Pago';
+
+save();
+
+toast(
+'Financeiro atualizado'
+);
+
+}
+
+}
+
+function delFinance(i){
+
+if(
+confirm(
+'Excluir lançamento?'
+)
+){
+
+data.finances=
+data.finances.filter(
+x=>x.id!==i
+);
+
+save();
+
+}
+
+}
+
+function openQuick(){
+
+newContent();
+
+}
+
+function f(n){
+
+return document.getElementById(
+'f_'+n
+)?.value||'';
+
+}
+
+function exportData(){
+
+const blob=
+new Blob(
+[
+JSON.stringify(
+data,
+null,
+2
+)
+],
+{
+type:'application/json'
+}
+);
+
+const a=
+document.createElement('a');
+
+a.href=
+URL.createObjectURL(blob);
+
+a.download=
+'n7-gestao-backup-'+
+today()+
+'.json';
+
+a.click();
+
+URL.revokeObjectURL(
+a.href
+);
+
+toast(
+'Backup exportado'
+);
+
+}
+
+function importData(e){
+
+const file=e.target.files[0];
+
+if(!file)return;
+
+const r=
+new FileReader();
+
+r.onload=()=>{
+
+try{
+
+const x=
+JSON.parse(
+r.result
+);
+
+if(
+!x.clients||
+!x.contents
+)
+throw 0;
+
+data={
+...defaultData,
+...x
+};
+
+save();
+
+toast(
+'Backup restaurado'
+);
+
+}catch(err){
+
+toast(
+'Arquivo de backup inválido'
+);
+
+}
+
+};
+
+r.readAsText(file);
+
+}
+
+function resetData(){
+
+if(
+confirm(
+'Isso apagará todos os dados deste navegador. Tem certeza?'
+)
+){
+
+localStorage.removeItem(
+KEY
+);
+
+data=load();
+
+renderAll();
+
+toast(
+'Dados apagados'
+);
+
+}
+
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>
